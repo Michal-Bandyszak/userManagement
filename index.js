@@ -12,7 +12,7 @@ const getHTMLElement = (str) => {
   };
 const btnAddUser = document.querySelector(".btn-addUser");
 const addUser = () => {
-  fetch("http://localhost:8080/v1/users/add", {
+  fetch("http://localhost:8090/v1/users/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +27,7 @@ btnAddUser.addEventListener("click", () => {
 
 //Pobieramy userów
 const getAllUsers = () => {
-	 fetch("http://localhost:8080/v1/users/get")
+	 fetch("http://localhost:8090/v1/users/get")
 		.then(res => res.json())
 		.then(res => {
 			//serwer zwraca json w postaci: success i data[] w której są dane użytkownika
@@ -58,13 +58,13 @@ const getAllUsers = () => {
 }
 
 const getUserById = () => {
-	fetch(`/localhost:8080/v1/users/get/{user_id}`)
+	fetch(`/localhost:8090/v1/users/get/{user_id}`)
 		.then((res) => res.json())
 		.catch(handleError);
 }
 
 const deleteUser = () => {
-	fetch(`/localhost:8080/v1/users/delete/{user_id}`, {
+	fetch(`/localhost:8090/v1/users/delete/{user_id}`, {
 		method: "DELETE",
 		headers: {
 			"Content-Type": "application/json"
@@ -74,7 +74,7 @@ const deleteUser = () => {
 }
 
 const changeUserData = () => {
-	fetch(`/localhost:8080/v1/users/update`, {
+	fetch(`/localhost:8090/v1/users/update`, {
 		method: 'PUT',
 		headers: {
 			"Content-Type": "application/json"
