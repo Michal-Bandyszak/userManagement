@@ -1,3 +1,5 @@
+//Need to add dynamic users display
+
 const table = document.querySelector('tbody');
 
 const handleError = (error) => {
@@ -21,7 +23,6 @@ const addUser = (user) => {
 		.catch(handleError);
 }
 
-//Pobieramy userów
 const getAllUsers = () => {
 	fetch("http://localhost:8090/v1/users/get")
 	   .then(res => res.json())
@@ -36,8 +37,8 @@ const getUserById = (id) => {
 		.catch(handleError);
 }
 
-const deleteUser = (user) => {
-	fetch(`http://localhost:8090/v1/users/delete/${user}`, {
+const deleteUser = (id) => {
+	fetch(`http://localhost:8090/v1/users/delete/${id}`, {
 		method: "DELETE",
 		headers: {
 	 		"Content-Type": "application/json"
