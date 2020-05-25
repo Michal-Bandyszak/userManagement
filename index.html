@@ -28,51 +28,51 @@
           <div class="modal-body mx-2">
             <form id="formAdd">
               <div class="md-form mb-2">
-                <input type="text" name="name"id="Form-name" class="form-control validate" required>
+                <input type="text" name="name" pattern="[A-Za-z]{1,32}" class="form-control validate" required>
                 <label data-error="wrong" data-success="right" for="name">Name</label>
               </div>
               <div class="md-form mb-2">
-                <input type="text" name="surname" id="orangeForm-surname" class="form-control validate" required>
+                <input type="text" name="surname" pattern="[A-Za-z]{1,32}" class="form-control validate" required>
                 <label data-error="wrong" data-success="right" for="surname">Surname</label>
               </div>
 
               <div class="md-form mb-2">
-                <input type="text" name="role" id="orangeForm-role" class="form-control validate" required>
+                <input type="text" name="role" pattern="[A-Za-z]{1,32}" class="form-control validate" required>
                 <label data-error="wrong" data-success="right" for="role">Role</label>
               </div>
 
               <div class="md-form mb-2">
-                <input type="number" name="priority" id="orangeForm-priority" class="form-control validate" required>
+                <input type="number" name="priority" class="form-control validate" required>
                 <label data-error="wrong" data-success="right" for="priority">Priority</label>
               </div>
 
               <div class="md-form mb-2">
-                <input type="email" name="email" id="orangeForm-email" class="form-control validate" required>
+                <input type="email" name="email" class="form-control validate" required>
                 <label data-error="wrong" data-success="right" for="email">Email</label>
               </div>
 
               <div class="md-form mb-2">
-                <input type="text" name="phoneNumber" id="orangeForm-role" class="form-control validate" required>
+                <input type="text" name="phoneNumber" pattern="[0-9]" class="form-control validate" required>
                 <label data-error="wrong" data-success="right" for="phone">Phone number</label>
               </div>
 
               <div class="md-form mb-2">
-                <input type="text" name="street" id="orangeForm-role" class="form-control validate" required>
+                <input type="text" name="street" pattern="[A-Za-z]" class="form-control validate" required>
                 <label data-error="wrong" data-success="right" for="street">Street</label>
               </div>
 
               <div class="md-form mb-2">
-                <input type="number" name="number" id="orangeForm-role" class="form-control validate" required>
+                <input type="number" name="number" class="form-control validate" required>
                 <label data-error="wrong" data-success="right" for="number">Number</label>
               </div>
 
               <div class="md-form mb-2">
-                <input type="text" name="zipCode" id="orangeForm-role" pattern="[0-9]{5}" class="form-control validate" required>
+                <input type="text" name="zipCode" pattern="[0-9]{5}" class="form-control validate" required>
                 <label data-error="wrong" data-success="right" for="zipCode">Zip Code</label>
               </div>
-
+              <!--86 because the longest city name in the world is 85 chars(new Zeland), shortest is 1 letter (Norway)-->
               <div class="md-form mb-2">
-                <input type="text" name="city" id="orangeForm-role" class="form-control validate" required>
+                <input type="text" name="city"  pattern="[A-Za-z] {1-86}" class="form-control validate" required>
                 <label data-error="wrong" data-success="right" for="pass">City</label>
               </div>
               <button type="submit" class="btn btn-primary btn-addUser">Add user</button>
