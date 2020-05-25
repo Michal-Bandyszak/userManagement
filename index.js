@@ -1,4 +1,5 @@
 const table = document.querySelector('tbody');
+const usersId = [];
 //Stara funckja do pokazywania errorów
 const handleError = (error) => {
 	console.log(error);
@@ -61,6 +62,17 @@ document.forms.formAdd.addEventListener("submit", (e) => {
 	// }
 })
 
+const deleteUser = (user) => {
+	fetch(`http://localhost:8090/v1/users/delete/${user}`, {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json"
+		}
+	}).then(res => res.json())
+		.catch(handleError)
+}
+
+
 //Pobieramy userów
 const getAllUsers = () => {
 	 fetch("http://localhost:8090/v1/users/get")
@@ -88,11 +100,16 @@ const getAllUsers = () => {
 				//No i tu w każdej pojedynczej komórce dodajemy w DOM komórkę o indexie i, no ją poszerzamy
 				// o to co zawiera każda komórka (zerknij w console loga z czego składa się tds)
 				tds.forEach((td, i) => tr.insertCell(i).appendChild(td));
-			});
-			
-		})
-		.catch(handleError);
-}
+				const btnDel = document.querySelector(".btn-del");
+				btnDel.addEventListener("click", () => {
+					console.log(user.id)
+					deleteUser(user.id)
+				})	
+			})
+		}).catch(handleError);
+	}
+	// console.log(usersId);
+
 
 const getUserById = () => {
 	fetch(`/localhost:8090/v1/users/get/{user_id}`)
@@ -100,20 +117,7 @@ const getUserById = () => {
 		.catch(handleError);
 }
 
-const deleteUser = () => {
-	fetch(`/localhost:8090/v1/users/delete/{user_id}`, {
-		method: "DELETE",
-		headers: {
-			"Content-Type": "application/json"
-		}
-	}).then(res => res.json())
-		.catch(handleError)
-}
 
-// const btnDel = document.querySelector('btn-del');
-// btnDel.addEventListener("click", {
-
-// })
 
 const changeUserData = () => {
 	fetch(`/localhost:8090/v1/users/update`, {
