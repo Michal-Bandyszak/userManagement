@@ -1,6 +1,10 @@
 //Need to add dynamic users display
+//Modal to display address
+//
 
 const table = document.querySelector('tbody');
+const addressTable = document.querySelector(".tableAddressBody")
+// const adressModal = document.getElementById("addressModal")
 
 const handleError = (error) => {
 	console.log(error);
@@ -23,21 +27,21 @@ const addUser = (user) => {
 		.catch(handleError);
 }
 
-const getAllUsers = () => {
+const getAllUsers = () => 
 	fetch("http://localhost:8090/v1/users/get")
 	   .then(res => res.json())
 	   .then(res => {
 		   res.data.forEach(userComponent)	
 	   }).catch(handleError);
-}
 
-const getUserById = (id) => {
+
+const getUserById = (id) => 
 	fetch(`http://localhost:8090/v1/users/get/${id}`)
 		.then((res) => res.json())
 		.catch(handleError);
-}
 
-const deleteUser = (id) => {
+
+const deleteUser = (id) => 
 	fetch(`http://localhost:8090/v1/users/delete/${id}`, {
 		method: "DELETE",
 		headers: {
@@ -45,9 +49,9 @@ const deleteUser = (id) => {
 		}
 	}).then(res => res.json())
 		.catch(handleError)
-}
 
-const changeUserData = () => {
+
+const changeUserData = () => 
 	fetch(`http://localhost:8090/v1/users/update`, {
 		method: 'PUT',
 		headers: {
@@ -55,7 +59,7 @@ const changeUserData = () => {
 		}
 	}).then(res => res.json())
 		.catch(handleError);
-}
+
 
 document.forms.formAdd.addEventListener("submit", (e) => {
 	e.preventDefault();
@@ -88,12 +92,25 @@ const userComponent = ((user, index) => {
 		user.priority, 
 		user.email, 
 		user.phoneNumber, 
-		user.address.street, 
+		`<div><a data-toggle="modal" data-target="#addressModal">Show Address</a></div>`,
 		`<div><button class="btn-edit fas fa-edit"></button><button class="btn-del fas fa-trash"></button></div>`
 	];
+
+	const modalRows = [
+		user.address.street,
+		user.address.number,
+		user.address.zipCode,
+		user.address.city,
+	];
+
+	//Jak ubrać to w jedna funkcję? 
 	const tr = table.insertRow(rows, index);
 	const tds = rows.map(value => getHTMLElement(value));
 	tds.forEach((td, i) => tr.insertCell(i).appendChild(td));
+	//Tu kod wyżej się powtarza co jest bez sensu.
+	const tr2 = addressTable.insertRow(modalRows, index);
+	const tds2 = modalRows.map(value => getHTMLElement(value));
+	tds2.forEach((td, i) => tr2.insertCell(i).appendChild(td))
 
 	const deleteButton = document.querySelector(".btn-del");
 	deleteButton.addEventListener("click", () => deleteUser(user.id))
