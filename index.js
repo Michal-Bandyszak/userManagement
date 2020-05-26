@@ -1,10 +1,11 @@
-//Need to add dynamic users display
-//Modal to display address
+//Edycja usera
+//Obsługa getByID
+//RegEx do wszystkich znaków z alfabetów --> póki co nie obłsuguję polskich w walidacji
 //
+
 
 const table = document.querySelector('tbody');
 const addressTable = document.querySelector(".tableAddressBody")
-// const adressModal = document.getElementById("addressModal")
 
 const handleError = (error) => {
 	console.log(error);
@@ -16,7 +17,7 @@ const getHTMLElement = (str) => {
 	return childNodes.length > 0 ? childNodes[0] : document.createElement("div");
 };
 
-const addUser = (user) => {
+const addUser = (user) => 
   fetch("http://localhost:8090/v1/users/add", {
     method: "POST",
     headers: {
@@ -25,7 +26,7 @@ const addUser = (user) => {
 	body: JSON.stringify(user),
 	}).then(res => res.json())
 		.catch(handleError);
-}
+
 
 const getAllUsers = () => 
 	fetch("http://localhost:8090/v1/users/get")
@@ -61,6 +62,11 @@ const changeUserData = () =>
 		.catch(handleError);
 
 
+const showUsers = () => {
+	table.innerHTML=""
+	getAllUsers()
+}
+
 document.forms.formAdd.addEventListener("submit", (e) => {
 	e.preventDefault();
 	const body = Object.fromEntries(new FormData(e.target));
@@ -79,9 +85,8 @@ document.forms.formAdd.addEventListener("submit", (e) => {
 		return { ...prev, [key]: value };
 		
 	}, {});
-	 addUser(data);
-	 //Neet to clear table before using function again
-	 //getAllUsers()
+	 addUser(data).then(showUsers());
+	 $('#newUser').modal('hide').find('textarea,input').val('');
 })
 
 const userComponent = ((user, index) => {
@@ -92,7 +97,7 @@ const userComponent = ((user, index) => {
 		user.priority, 
 		user.email, 
 		user.phoneNumber, 
-		`<div><a data-toggle="modal" data-target="#addressModal">Show Address</a></div>`,
+		`<div><a class="showAdress" data-toggle="modal" data-target="#addressModal">Show Address</a></div>`,
 		`<div><button class="btn-edit fas fa-edit"></button><button class="btn-del fas fa-trash"></button></div>`
 	];
 
@@ -107,17 +112,19 @@ const userComponent = ((user, index) => {
 	const tr = table.insertRow(rows, index);
 	const tds = rows.map(value => getHTMLElement(value));
 	tds.forEach((td, i) => tr.insertCell(i).appendChild(td));
-	//Tu kod wyżej się powtarza co jest bez sensu.
-	const tr2 = addressTable.insertRow(modalRows, index);
+
+	const tr2 = addressTable.insertRow(modalRows);
 	const tds2 = modalRows.map(value => getHTMLElement(value));
-	tds2.forEach((td, i) => tr2.insertCell(i).appendChild(td))
+	
+	console.log(tr2)
+		
 
 	const deleteButton = document.querySelector(".btn-del");
-	deleteButton.addEventListener("click", () => deleteUser(user.id))
+	deleteButton.addEventListener("click", () => deleteUser(user.id).then(showUsers))
 		return tds;
 })
 
 const userDelete = id => deleteUser(id);
 const userById = id => getUserById(id);
 
-getAllUsers();
+showUsers()
