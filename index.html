@@ -4,86 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>users management</title>
+  <link rel="stylesheet" href="normalize.css" type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/c7be0e60d2.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
 
-  <body>
+  <body class="container mb-3 mt-3">
   <section class="header">
-    <h1>User management</h1>
-    <button href="" class="btn btn-primary " data-toggle="modal" data-target="#modalRegisterForm">New User</button>
-    <!--Modal Add user-->
-    <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header text-center">
-            <h4 class="modal-title w-100 font-weight-bold">Add user</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body mx-2">
-            <form id="formAdd">
-              <div class="md-form mb-2">
-                <input type="text" name="name" pattern="[A-Za-z]{1,32}" class="form-control validate" required>
-                <label data-error="wrong" data-success="right" for="name">Name</label>
-              </div>
-              <div class="md-form mb-2">
-                <input type="text" name="surname" pattern="[A-Za-z]{1,32}" class="form-control validate" required>
-                <label data-error="wrong" data-success="right" for="surname">Surname</label>
-              </div>
-
-              <div class="md-form mb-2">
-                <input type="text" name="role" pattern="[A-Za-z]{1,32}" class="form-control validate" required>
-                <label data-error="wrong" data-success="right" for="role">Role</label>
-              </div>
-
-              <div class="md-form mb-2">
-                <input type="number" name="priority" class="form-control validate" required>
-                <label data-error="wrong" data-success="right" for="priority">Priority</label>
-              </div>
-
-              <div class="md-form mb-2">
-                <input type="email" name="email" class="form-control validate" required>
-                <label data-error="wrong" data-success="right" for="email">Email</label>
-              </div>
-
-              <div class="md-form mb-2">
-                <input type="text" name="phoneNumber" pattern="[0-9]" class="form-control validate" required>
-                <label data-error="wrong" data-success="right" for="phone">Phone number</label>
-              </div>
-
-              <div class="md-form mb-2">
-                <input type="text" name="street" pattern="[A-Za-z]" class="form-control validate" required>
-                <label data-error="wrong" data-success="right" for="street">Street</label>
-              </div>
-
-              <div class="md-form mb-2">
-                <input type="number" name="number" class="form-control validate" required>
-                <label data-error="wrong" data-success="right" for="number">Number</label>
-              </div>
-
-              <div class="md-form mb-2">
-                <input type="text" name="zipCode" pattern="[0-9]{5}" class="form-control validate" required>
-                <label data-error="wrong" data-success="right" for="zipCode">Zip Code</label>
-              </div>
-              <!--86 because the longest city name in the world is 85 chars(new Zeland), shortest is 1 letter (Norway)-->
-              <div class="md-form mb-2">
-                <input type="text" name="city"  pattern="[A-Za-z] {1-86}" class="form-control validate" required>
-                <label data-error="wrong" data-success="right" for="pass">City</label>
-              </div>
-              <button type="submit" class="btn btn-primary btn-addUser">Add user</button>
-           </form>
-          </div>
-        </div>
-      </div>
+    <div class="row">
+      <h1 class="col-lg-11">User management</h1>
+      <button href="" class="btn btn-primary col-lg-1" data-toggle="modal" data-target=".newUser__modal">New User</button>
     </div>
+    <!--Modal new user-->
+    <section class="modals">
+      <div class="newUser__modal modal fade" id="newUser" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title">New User</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <form id="formAdd" >
+                          <div class="form-row newUser__first--row">
+                              <div class="form-group col-md-6">
+                                  <input type="text" class="form-control" placeholder="First name" name="name" pattern="[A-Za-z]{1,32}"
+                                      required>
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <input type="text" class="form-control" placeholder="Last name" name="surname" pattern="[A-Za-z]{1,32}"
+                                      required>
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <input type="text" class="form-control" placeholder="Street" name="street" pattern="[A-Za-z]{1,32}"
+                                      required>
+                              </div>
+                              <div class="col">
+                                  <input type=" text" class="form-control" placeholder="Number" name="number" pattern="[0-9]{3}"
+                                      required>
+                              </div>
+                              <div class="col">
+                                  <input type="text" class="form-control" placeholder="Zip-Code" name="zipCode" pattern="[0-9]{5}"
+                                      required>
+                              </div>
+                              <div class="col">
+                                  <input type="text" class="form-control" placeholder="City" name="city" pattern="[A-Za-z]{1,85}"
+                                      required>
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <input type="text" class="form-control" placeholder="Phone Number" pattern="[0-9]{9}"
+                                      name="phoneNumber" required>
+                              </div>
+                              <div class="col">
+                                  <input type="email" class="form-control" placeholder="Email" name="email"
+                                      required>
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <input type="text" class="form-control" placeholder="Role" name="role" required pattern="[A-Za-z]{1,12}">
+                              </div>
+                              <div class="col">
+                                  <input type="number" class="form-control" placeholder="Priority" name="priority" pattern="[0-9]{1}"
+                                      required>
+                              </div>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Create user</button>
+                          </form>
+                  </div>
+              </div>
+          </div>
+      </div>
   </section>
 
-  <section class="table__container">
+  <section class="table__container mt-3">
     <table class="table">
       <thead>
         <tr>
@@ -97,11 +95,46 @@
           <th>Actions</th>
         </tr>
       <tbody>
-
+        <!--Modal show address-->
+       
       </tbody>
       </thead>
     </table>
   </section>
+
+  <section>
+    <div id="addressModal" class="modal fade addressModal" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Adress</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body table__container mt-3">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Street</th>
+                      <th>Number</th>
+                      <th>Zip Code</th>
+                      <th>City</th>
+                    </tr>
+                  <tbody class="tableAddressBody">  
+                 </tbody>
+                </thead>
+                </table>
+              </div>   
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Create user</button>
+              </div>
+          </div>
+      </div>
+    </div>
+  </section>
+  
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
