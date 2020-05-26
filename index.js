@@ -1,11 +1,5 @@
-//Edycja usera
-//Obsługa getByID
-//RegEx do wszystkich znaków z alfabetów --> póki co nie obłsuguję polskich w walidacji
-//
-
-
-const table = document.querySelector('tbody');
-const addressTable = document.querySelector(".tableAddressBody")
+const usersTable = document.querySelector('#usersTable');
+// const addressTable = document.querySelector(".tableAddressBody")
 
 const handleError = (error) => {
 	console.log(error);
@@ -63,10 +57,40 @@ const changeUserData = () =>
 
 
 const showUsers = () => {
-	table.innerHTML=""
+	usersTable.innerHTML=""
 	getAllUsers()
 }
 
+const editUser = (user) => {
+	$('#editUser').modal('show').find('textarea,input').val('');
+	
+	document.forms.formEdit.addEventListener("submit", (e) => {
+		e.preventDefault();
+		const body = Object.fromEntries(new FormData(e.target));
+		const addressFields = ['city', 'street', 'zipCode', 'number'];
+		
+		const data = Object.entries(body).reduce((prev, actual) => {
+			const [key, value] = actual;
+			if(key === 'priority') {
+				return { ...prev, [key]: +value }
+			};
+			
+			if (addressFields.includes(key)) {
+				const { address } = prev;
+				return { ...prev, address: { ...address, [key]: value }};
+			}
+			return { ...prev, [key]: value };
+			
+		}, {});
+		const id = user.id
+		const send = {...data, id }
+		console.log(send)
+		changeUserData(send)
+		
+		$('#editUser').modal('hide').find('textarea,input').val('');
+	})
+
+}
 document.forms.formAdd.addEventListener("submit", (e) => {
 	e.preventDefault();
 	const body = Object.fromEntries(new FormData(e.target));
@@ -101,30 +125,31 @@ const userComponent = ((user, index) => {
 		`<div><button class="btn-edit fas fa-edit"></button><button class="btn-del fas fa-trash"></button></div>`
 	];
 
-	const modalRows = [
-		user.address.street,
-		user.address.number,
-		user.address.zipCode,
-		user.address.city,
-	];
+	// const modalRows = [
+	// 	user.address.street,
+	// 	user.address.number,
+	// 	user.address.zipCode,
+	// 	user.address.city,
+	// ];
 
-	//Jak ubrać to w jedna funkcję? 
-	const tr = table.insertRow(rows, index);
+	const tr = usersTable.insertRow(rows);
 	const tds = rows.map(value => getHTMLElement(value));
 	tds.forEach((td, i) => tr.insertCell(i).appendChild(td));
 
-	const tr2 = addressTable.insertRow(modalRows);
-	const tds2 = modalRows.map(value => getHTMLElement(value));
+	// const tr2 = addressTable.insertRow(modalRows);
+	// const tds2 = modalRows.map(value => getHTMLElement(value));
 	
-	console.log(tr2)
+	// console.log(tr2)
 		
 
 	const deleteButton = document.querySelector(".btn-del");
-	deleteButton.addEventListener("click", () => deleteUser(user.id).then(showUsers))
-		return tds;
+	const editButton = document.querySelector(".btn-edit");
+	
+	deleteButton.addEventListener("click", () => deleteUser(user.id).then(showUsers));
+	editButton.addEventListener("click", () => editUser(user));
+
 })
 
-const userDelete = id => deleteUser(id);
-const userById = id => getUserById(id);
+// const userById = id => getUserById(id);
 
 showUsers()
