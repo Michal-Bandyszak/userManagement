@@ -1,0 +1,9 @@
+.btn-edit, .btn-del {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  cursor: pointer;
+}
