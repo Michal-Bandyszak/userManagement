@@ -2,7 +2,6 @@ const table = document.querySelector('#usersTable');
 const tbody = document.querySelector('#usersTable tbody')
 const addressTable = document.querySelector("#addressModalTable");
 const editUserModalForm = document.getElementById("formEdit");
-const buttonSubmit = document.getElementById("buttonSubmit");
 
 const handleError = (error) => {
 	console.log(error);
@@ -61,9 +60,10 @@ const changeUserData = (datawithId) =>
 
 
 const showUsers = () => {
-	tbody.innerHTML =""
-	getAllUsers()
+	 tbody.innerHTML =""
+		getAllUsers()
 }
+
 
 const showAddress = (address, index) => {
 	addressTable.innerHTML = ""
@@ -71,7 +71,8 @@ const showAddress = (address, index) => {
 	const tableContent = address.map((value) => getHTMLElement(value));
 	tableContent.forEach((td, index) => {
 		tableRow.insertCell(index).appendChild(td);
-	})	
+	})
+	
 }
 
 const editUser = (user, id) => {
@@ -79,6 +80,7 @@ const editUser = (user, id) => {
 	const title = document.getElementById("modal-title");
 	title.innerHTML=""
 	title.append("Edit user: "+ id)
+	
 	// const userId = document.getElementById("userId");
 	const name = document.getElementById("name");
 	const surname = document.getElementById("surname");
@@ -101,40 +103,37 @@ const editUser = (user, id) => {
 	phone.value = user.phoneNumber;
 	email.value = user.email;
 	role.value = user.role;
-	priority.value = user.priority;	
+	priority.value = user.priority;
+
+	document.forms.formEdit.addEventListener("submit", (e) => {
+		e.preventDefault();
+		const body = Object.fromEntries(new FormData(e.target));
+		const addressFields = ['city', 'street', 'zipCode', 'number'];
+		const data = Object.entries(body).reduce((prev, actual) => {
+			const [key, value] = actual;
+			if(key === 'priority') {
+				return { ...prev, [key]: +value }
+			};
+			
+			if (addressFields.includes(key)) {
+				const { address } = prev;
+				return { ...prev, address: { ...address, [key]: value }};
+			}
+			return { ...prev, [key]: value };
+			
+		}, {});
+	
+		const id = userId.value
+		const datawithId = {...data, id }
+	
+		changeUserData(datawithId)
+		showUsers()
+		$('#editUser').modal('hide').find('textarea, input').val('');
+	})
+	
 }
 
 
-
-//obiekt modal, na nim wywołać metodę setData przekazać usera, na submit --> o 
-
-buttonSubmit.addEventListener("click", () => submitFormEdit(e));
-
-const submitFormEdit = (e) => {
-	e.preventDefault();
-	// document.forms.formEdit.addEventListener("submit", (e) => {
-	const body = Object.fromEntries(new FormData(e.target));
-	const addressFields = ['city', 'street', 'zipCode', 'number'];
-	const data = Object.entries(body).reduce((prev, actual) => {
-		const [key, value] = actual;
-		if(key === 'priority') {
-			return { ...prev, [key]: +value }
-		};
-		
-		if (addressFields.includes(key)) {
-			const { address } = prev;
-			return { ...prev, address: { ...address, [key]: value }};
-		}
-		return { ...prev, [key]: value };
-		
-	}, {});
-	 const datawithId = {...data, id }
-		console.log("####") 
-		// changeUserData(datawithId)
-		// showUsers()
-	$('#editUser').modal('hide').find('textarea, input').val('');
-}
-console.log("lool")
 const showDeleteModal = (user) => {
 	$('#deleteModal').modal('show').find('textarea,input').val('');
 	const btnDel = document.querySelector("#modalButtonDelete");
@@ -169,7 +168,6 @@ document.forms.formAdd.addEventListener("submit", (e) => {
 
 const userComponent = (user, index) => {
 	const row = [
-		`<div><input type="checkbox"></div>`,
 		user.name, 
 		user.surname, 
 		user.role, 
@@ -204,9 +202,8 @@ const userComponent = (user, index) => {
 	const addressButton = tr.querySelector(".btn-showAddress");
 
 	deleteButton.addEventListener("click", () => showDeleteModal(user))//deleteUser(user.id).then(showUsers));
-	editButton.addEventListener("click", () => { fun(user), console.log(lol), editUser(user, user.id)});
+	editButton.addEventListener("click", () => editUser(user, user.id));
 	addressButton.addEventListener("click", () => showAddress(address));
-	
 }
 
 showUsers()
